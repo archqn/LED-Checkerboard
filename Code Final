@@ -1,0 +1,115 @@
+// C++ code for the final version for the LED checkerboard project
+
+#include <Adafruit_NeoPixel.h>
+#ifdef __AVR__
+#include <avr/power.h> 
+#endif
+#define PIN A5 // Pin for LED strip
+#define NUMPIXELS 192 // Total LEDs
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+const int rows = 9; // Max pin used
+const int cols = 13; 
+int currentState[8][4] = {0}; // Sensor grid size
+int lastState[8][4] = {0};
+const int offset = 2; // Starting pin used
+const int offset2 = 10;
+
+void colsHigh(){
+  for (int i=10; i<=cols; i++) {
+  	digitalWrite(i, HIGH);
+  }
+}
+
+void turnOffAllLeds(){
+  pixels.clear();
+  Serial.println("all LEDs off");
+}
+
+// Initialize LED strip and sensor pins
+void setup() {
+#if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
+  clock_prescale_set(clock_div_1);
+#endif
+  pixels.begin(); 
+  // END of LED code
+  Serial.begin(9600);
+  for (int i=2; i<=rows; i++) { // Starting pin used
+    pinMode(i, INPUT_PULLUP);
+    Serial.print("pinMode(");
+    Serial.print(i);
+    Serial.print(", INPUT_PULLUP) "); 
+  }
+  for (int j=10; j<=cols; j++) { // Starting pin used
+    pinMode(j, OUTPUT);
+    Serial.print("pinMode(");
+    Serial.print(j);
+    Serial.print(", OUTPUT) "); 
+  }
+  Serial.println("SETUP COMPLETE");
+  colsHigh();
+}
+
+// Function for activating LED where change is detected
+void ledOn(int row, int col) {
+  int ledIndex, rowIndex, startIndex;    
+  int ledPerCol = NUMPIXELS / 8; // 192 / 8 = 24
+  if (row % 2 != 0) {
+    // Even rows (odd indexes: 1, 3, 5, 7)
+    rowIndex = ((row - 1) / 2) * 6; // (0, 6, 12, 18)
+    startIndex = ledPerCol * col * 2; // (0, 48, 96, 144)
+  }
+  else if (row % 2 == 0) {
+    // Odd rows (even indexes: 0, 2, 4, 6)
+    rowIndex = ((6-row )/ 2) * 6; // (18,12,6,0)
+    startIndex = (ledPerCol * col * 2) + ledPerCol; // (24, 72, 120, 168)
+  }
+  ledIndex = startIndex + rowIndex;
+  /*
+  Serial.print("startIndex=");
+  Serial.print(startIndex);
+  Serial.print("\trowIndex=");
+  Serial.print(rowIndex);
+  */
+  Serial.print("ledIndex=");
+  Serial.println(ledIndex);
+  // Set the LED color and show
+  pixels.setPixelColor(ledIndex, pixels.Color(130, 0, 200));
+  pixels.show();
+}
+  
+// Function for changing between states when reed sensor is activated / deactivated
+void handleStateChange(int row, int col, int newState) {
+  Serial.println("change detected");
+  if (newState == HIGH) {
+    turnOffAllLeds();
+    Serial.println("Piece lifted LED on");
+    ledOn(row, col);
+  } 
+  else if (newState == LOW) {
+    Serial.println("Piece placed LED on");
+    ledOn(row, col);
+  }
+  lastState[row][col] = newState;
+  Serial.println(row);
+  Serial.println(col);
+  // Serial.println(newState);
+
+}
+
+void loop() {
+  // colsHigh();
+  for (int col = 10; col <= cols; col++) {
+    digitalWrite(col, LOW);
+    for (int row = 2; row <= rows; row++) {
+      int currentState = digitalRead(row);
+      int rowIndex = row - offset;
+      int colIndex = col - offset2;
+      if (currentState != lastState[rowIndex][colIndex]) {
+        handleStateChange(rowIndex, colIndex, currentState);
+      }
+    }
+    digitalWrite(col, HIGH);
+  }
+  delay(100);
+}
