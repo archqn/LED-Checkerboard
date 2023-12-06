@@ -1,0 +1,27 @@
+Design Timeline
+Week 5: 
+Experimented with reed switches by creating a circuit with the reed switch and LED with the Arduino. 
+Decided on the type of sensors to be used, which were glass reed switches instead of plastic. 
+Used TinkerCAD to begin writing the code and making a mock circuit system with buttons instead of switches. 
+Ordered the switches, LEDs, and checkerboard. 
+Week 6: 
+Assembled a grid system with buttons while waiting for the reed switches to arrive
+Tested the circuit to see if the Arduino could read the position of the on/off buttons
+Met with Roark, Srini, and Monsij to determine what kind of methods we should tackle with the code and whether or not we should use a diode
+Created a sketch for our code
+Week 7: 
+Soldered reed switches to diodes
+Completed 7 rows of the grid system
+Ordered Mylar Sheet
+Completed code and tested it once with the first two rows of the system
+Successfully read the switches
+Week 8: 
+Finished all 8 rows of the grid system and taped it down a piece of cardboard
+Plugged in all wires of the grid to the Arduino and tested if all the sensors were working
+Un-taped the grid system and taped the LED strip underneath in a snake-pattern
+Adjusted the code to accommodate the LED pattern and assign positions to each LED. 
+Drew and cut a checkered pattern on the Mylar Sheet
+Week 9: 
+Finished assembling the grid on top of the LED snake
+Plugged in the grid circuit and LEDs and tested the code, making adjustments
+Taped the Mylar sheet to the grid. 
