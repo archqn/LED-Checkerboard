@@ -1,0 +1,68 @@
+const int rows = 8; // max pin used
+const int cols = 9; 
+int currentState[4][1] = {0};
+int lastState[4][1] = {0};
+const int offset = 5; // first pin used
+const int offset2 = 9;
+
+void colsHigh(){ // sets all columns HIGH
+  for (int i=9; i<=cols; i++) {
+  	digitalWrite(i, HIGH);
+  }
+}
+
+void turnOffAllLeds(){
+  Serial.println("all LEDs off");
+}
+
+
+// Initialize sensor pins
+void setup() {
+  Serial.begin(9600);
+  for (int i=5; i<=rows; i++) {
+    pinMode(i, INPUT_PULLUP);
+    Serial.print("pinMode(");
+    Serial.print(i);
+    Serial.print(", INPUT_PULLUP) "); 
+  }
+  for (int j=9; j<=cols; j++) {
+    pinMode(j, OUTPUT);
+    Serial.print("pinMode(");
+    Serial.print(j);
+    Serial.print(", OUTPUT) "); 
+  }
+  Serial.println("pinMode LedPins ");
+  colsHigh();
+}
+  
+void handleStateChange(int row, int col, int newState) {
+  Serial.println("change detected");
+  if (newState == LOW) {
+    turnOffAllLeds();
+    Serial.println("Piece placed LED on");
+  } else if (newState == HIGH) {
+    Serial.println("Piece lifted LED on");
+  }
+  lastState[row][col] = newState;
+}
+
+void loop() {
+  
+  //colsHigh();
+  for (int col = 9; col <= cols; col++) {
+   digitalWrite(col, LOW); // current column LOW
+
+    for (int row = 5; row <= rows; row++) {
+      int currentState = digitalRead(row);
+      int rowIndex = row - offset;
+      int colIndex = col - offset2;
+
+      if (currentState != lastState[rowIndex][0]) {
+        handleStateChange(rowIndex, colIndex, currentState);
+        Serial.println(row);
+      }
+    }
+    digitalWrite(col, HIGH); // Reset column to HIGH
+  //}
+  
+}
