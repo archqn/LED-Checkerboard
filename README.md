@@ -3,26 +3,20 @@ Beginner Arduino project - checkerboard that tracks the last piece moved and lig
 
 First year undergraduate project for ECE 5 - Introduction to Electrical & Computer Engineering at University of California Santa Barbara.
 
-~4 week project. Approximate start date: 11/02/2023. Approximate completion date: 11/05/2023
-
-Materials used:
-- 1 Arduino Board
-- LED Strip
-- 1 Magnetic Checkers pieces set
-- 32 Reed Switches 
-- 32 1N4148 diodes
-- 16x16 of mylar sheets (the board of the checkerboard)
-- 1 LED Power 9v 3A DC Supply (+ 7805 voltage regulator)
-- Jumper wires
-- Solderless breadboard
+~4 week project. Approximate start date: 11/02/2023. Approximate completion date: 12/05/2023
 
 Table of Contents:
 - Code Final:
     final code used for the Arduino checkerboard project
 - Design Timeline:
     week by week process for constructing the board
+- Hardware and Logic:
+    outline of the hardware design and explanation of the final code
 - Test code for LED:
     code used for testing just the LEDs
 - Test code for switches:
     code used for testing one column of the reed switches
+- Future improvements:
+    potential improvements and future directions for the project
+    
 
