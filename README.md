@@ -10,13 +10,13 @@ Table of Contents:
     final code used for the Arduino checkerboard project
 - Design Timeline:
     week by week process for constructing the board
-- Hardware and Logic:
+- Future improvements:
+    potential improvements and future directions for the project
+- Hardware and logic:
     outline of the hardware design and explanation of the final code
 - Test code for LED:
     code used for testing just the LEDs
 - Test code for switches:
     code used for testing one column of the reed switches
-- Future improvements:
-    potential improvements and future directions for the project
     
 
