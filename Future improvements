@@ -1,0 +1,9 @@
+Improvements:
+- 5v power supply for LED instead of 9v (reduces need for voltage regulator which can overheat if used for too long)
+- stronger magnets in checkers pieces for more consistent readings
+- better mechanism for keeping the mylar board flat and propped up and keeping the reed switch grid directly under the mylar board
+
+Future directions:
+- can be designed for chess as well as checkers
+- rules can be coded so LEDs respond when a wrong move is made
+- can be coded to track the positions of pieces as well and serialprint the board state to a monitor or other API
