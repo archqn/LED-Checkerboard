@@ -1,0 +1,35 @@
+Materials used:
+- 1 Arduino Board
+- LED Strip (192 LEDs)
+- 1 Magnetic Checkers pieces set
+- 32 Reed Switches 
+- 32 1N4148 diodes
+- 16x16 of mylar sheets (the board of the checkerboard)
+- 1 LED Power 9v 3A DC Supply (+ 7805 voltage regulator)
+- Jumper wires
+- Solderless breadboard
+
+Hardware: 
+- wire grid - 8 rows, 8 columns (rows and columns are not touching)
+- reed switches - one end connected to its row, the other end soldered to a diode with its cathode connected to its column (positioned diagonaly so the switch appears in the middle of the square created by the grid, and in every other square to achieve the checkerboard layout)
+- each row connected to Arduino pins (2-9) set to INPUT_PULLUP (input with an internal resistor pulled to 5v)
+- every 2 columns soldered together and connected to Arduino pins (10-13) set to OUTPUT (so each Arduino pin connects to 8 total switches, 4 from each column)
+- LED strip placed underneath wire grid in a serpentine layout (down the first column, up the next, down the thrid column, etc.) where the first LED is placed underneath the first switch in the center of the first grid square, skipping 5 LEDs before the next switch (2 grid squares).
+- LED strip connected to Arduino pin A5, LED ground connected to Arduino GND, LED power connected to output of 7805 voltage regulator
+- 7805 voltage regulator ground connected to Arduino GND, input voltage connected to Arduino vin pin
+- Arduino connected to 9v 3A DC power supply
+
+Basic logic:
+- read each row in each column and check if the state has changed since the last reading
+- if state has changed and switch has opened (a piece has been lifted) all LEDs are turned off, then the LED in the position corresponding to the switch turns on
+- if state has changed and switch is closed (a piece has been placed), the LED in the position the position corresponding to the switch turns on
+
+Code explanation:
+- starting state: all columns output is set to HIGH, all LEDs off
+- to check each sensor: set one set of columns to LOW, then digitalread each row to check each pin in those 2 columns. If the switch is open, the pin should read HIGH. If switch is closed pin is connected to LOW output, there is a voltage drop, and so pin should read LOW.
+- the readings of each position are stored in an 8x4 matrix and compared to the previous readings matrix
+- if a position has a changed reading and the new reading is HIGH, then all LEDs are turned off
+- the position of the changed reading is then used to calculate the position of the corresponding LED, and the corresponding LED is turned on
+- if a position has a changed reading and the new reading is LOW, then the position of the changed reading is again used to calculate the position of the corresponding LED, which is turned on
+- after checking a column set the column set is set to HIGH again before checking the next column set
+
